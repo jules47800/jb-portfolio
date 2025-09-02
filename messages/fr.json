@@ -1,0 +1,218 @@
+{
+  "nav": {
+    "home": "Accueil",
+    "about": "À propos",
+    "projects": "Projets",
+    "blog": "Blog",
+    "contact": "Contact",
+    "services": "Services"
+  },
+  "hero": {
+    "title": "Sites WordPress sur‑mesure et réservations qui convertissent",
+    "subtitle": "Freelance à Bordeaux — vitrines rapides, SEO technique, systèmes de réservation taillés pour votre service.",
+    "ctaProjects": "Voir mes réalisations",
+    "ctaContact": "Demander un devis"
+  },
+  "about": {
+    "sections": {
+      "identity": "Identité",
+      "education": "Formation",
+      "experience": "Expériences",
+      "school": "Projets scolaires & académiques",
+      "skills": "Compétences techniques"
+    },
+    "interests": "Centres d’intérêt",
+    "contactCta": "Me contacter",
+    "cv": {
+      "title": "Télécharger le CV",
+      "button": "Télécharger le CV (PDF)"
+    }
+  },
+  "home": {
+    "testimonials": {
+      "title": "Témoignages",
+      "items": [
+        {"name": "Client restauration", "role": "Restaurateur", "quote": "Mise en place rapide, réservations fluides, moins d’appels au service."},
+        {"name": "Entrepreneur", "role": "Fondateur", "quote": "Site WordPress propre et facile à éditer, super réactivité."}
+      ]
+    }
+  },
+  "pages": {
+    "about": {
+      "title": "À propos",
+      "intro": "Chef de projet digital (ESD Bordeaux) et développeur front. J'allie UX, performance et SEO pour livrer des sites utiles, rapides et simples à maintenir."
+    },
+    "blog": {
+      "title": "Blog",
+      "soon": "Bientôt des articles sur le SEO technique et des checklists."
+    },
+    "projects": {
+      "title": "Projets"
+    },
+    "contact": {
+      "title": "Contact"
+    },
+    "legal": {"title": "Mentions légales"},
+    "privacy": {"title": "Politique de confidentialité"}
+  },
+  "contact": {
+    "form": {
+      "name": "Nom",
+      "email": "Email",
+      "message": "Message",
+      "submit": "Envoyer",
+      "success": "Message envoyé.",
+      "error": "Échec de l’envoi."
+    }
+  },
+  "servicesIndex": {
+    "seo": {
+      "title": "Services web freelance",
+      "description": "Création WordPress sur‑mesure et solution de réservation pour restaurants."
+    },
+    "hero": {
+      "title": "Services",
+      "subtitle": "Deux offres claires, pensées pour l’efficacité : WordPress sur‑mesure et réservations en ligne."
+    },
+    "cards": {
+      "wordpress": {
+        "title": "Thème WordPress sur‑mesure",
+        "desc": "Vitrine rapide, éditable et optimisée SEO."
+      },
+      "restaurant": {
+        "title": "Réservations pour restaurants",
+        "desc": "Prises de réservations, notifications et acompte, intégré à votre site."
+      }
+    },
+    "cta": {
+      "view": "Découvrir",
+      "contact": "Parler de votre besoin"
+    },
+    "bottomCta": {
+      "title": "Un besoin précis ?",
+      "subtitle": "Décrivez votre projet, je reviens vers vous sous 24h.",
+      "button": "Me contacter"
+    }
+  },
+  "sections": {
+    "featured": "Projets à la une",
+    "experience": "Expériences",
+    "skills": "Compétences",
+    "contact": "Contact"
+  },
+  "project": {
+    "embed": {
+      "show": "Voir la démo",
+      "hide": "Masquer la démo",
+      "prototype": "Voir le prototype"
+    }
+  },
+  "footer": {
+    "legal": "Mentions légales",
+    "pdf": "Portfolio PDF"
+  },
+  "services": {
+    "wordpress": {
+      "seo": {
+        "title": "Création de thèmes WordPress sur-mesure",
+        "description": "Sites vitrines performants, SEO technique et design responsive — Bordeaux."
+      },
+      "hero": {
+        "title": "Thème WordPress sur‑mesure, rapide et éditable",
+        "subtitle": "Du design au déploiement, une vitrine pensée pour convertir et bien se positionner.",
+        "cta": "Demander un devis",
+        "secondaryCta": "Études de cas"
+      },
+      "features": {
+        "item1": {"title": "Performance et Core Web Vitals", "desc": "Chargement rapide, code propre, bonnes pratiques techniques."},
+        "item2": {"title": "Édition simple", "desc": "Back‑office clair, blocs personnalisés, formation incluse."},
+        "item3": {"title": "SEO technique", "desc": "Balises, schémas, maillage interne et structure optimisés."},
+        "item4": {"title": "Maintenance et évolutivité", "desc": "Suivi, sécurité et améliorations continues."}
+      },
+      "process": {
+        "step1": {"title": "Cadrage", "desc": "Objectifs, contenus, arborescence et identité."},
+        "step2": {"title": "Design & intégration", "desc": "UI Figma puis thème WordPress personnalisé."},
+        "step3": {"title": "Mise en ligne", "desc": "Recette, SEO de lancement, formation et support."}
+      },
+      "cta": {
+        "title": "Prêt à lancer votre site vitrine ?",
+        "subtitle": "Réponse sous 24h, devis gratuit.",
+        "button": "Me contacter"
+      },
+      "pricing": {
+        "title": "Tarifs",
+        "plans": {
+          "starter": {
+            "name": "Starter",
+            "price": "À partir de 1 200€",
+            "features": ["Thème vitrine personnalisé", "Pages clés (Accueil, À propos, Contact)", "Base SEO technique"]
+          },
+          "pro": {
+            "name": "Pro",
+            "price": "À partir de 2 400€",
+            "features": ["Design system Figma", "Blocs réutilisables", "Optimisation Core Web Vitals"]
+          }
+        }
+      },
+      "faq": {
+        "title": "FAQ",
+        "items": [
+          {"q": "Combien de temps pour un site vitrine ?", "a": "Entre 2 et 4 semaines selon contenu et révisions."},
+          {"q": "Pouvez‑vous gérer l’hébergement ?", "a": "Oui, je conseille et mets en place la solution adaptée."}
+        ]
+      }
+    },
+    "restaurant": {
+      "seo": {
+        "title": "Solution de réservation en ligne pour restaurants",
+        "description": "Prises de réservations, planning, SMS/e‑mail, dépôt d’acompte — intégrée au site."
+      },
+      "hero": {
+        "title": "Réservations en ligne sans friction",
+        "subtitle": "Un flux adapté à votre salle, rappels automatiques et acompte pour réduire le no‑show.",
+        "cta": "Installer la solution",
+        "secondaryCta": "Études de cas"
+      },
+      "features": {
+        "item1": {"title": "Flux de réservation", "desc": "Horaires, capacités, zones, contraintes et no‑show."},
+        "item2": {"title": "Notifications", "desc": "SMS/e‑mail de confirmation, rappels et annulations."},
+        "item3": {"title": "Acompte & paiements", "desc": "Gestion d’acompte, CB, remboursements et factures."},
+        "item4": {"title": "Analytics & SEO local", "desc": "Suivi GA4, Google Business Profile et schema.org."}
+      },
+      "process": {
+        "step1": {"title": "Audit & besoins", "desc": "Terrasse, services, volumes, pics et cas particuliers."},
+        "step2": {"title": "Intégration", "desc": "Connexion au site, branding, textes et RGPD."},
+        "step3": {"title": "Formation & support", "desc": "Prise en main équipe, hotline et itérations."}
+      },
+      "cta": {
+        "title": "Optimisons vos réservations en ligne",
+        "subtitle": "Moins d’appels, plus de couverts.",
+        "button": "Parler du projet"
+      },
+      "pricing": {
+        "title": "Tarifs",
+        "plans": {
+          "starter": {
+            "name": "Essentiel",
+            "price": "À partir de 900€",
+            "features": ["Module de réservation", "Notifications e‑mail", "Configuration service"]
+          },
+          "pro": {
+            "name": "Complet",
+            "price": "À partir de 1 600€",
+            "features": ["SMS + rappels", "Acompte & paiements", "Dashboard et stats"]
+          }
+        }
+      },
+      "faq": {
+        "title": "FAQ",
+        "items": [
+          {"q": "Compatible avec votre site actuel ?", "a": "Oui, intégration sur WordPress ou site existant."},
+          {"q": "Gestion du no‑show ?", "a": "Acompte et rappels réduisent fortement le no‑show."}
+        ]
+      }
+    }
+  }
+}
+
+

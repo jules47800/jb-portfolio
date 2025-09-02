@@ -1,0 +1,220 @@
+{
+  "nav": {
+    "home": "Home",
+    "about": "About",
+    "projects": "Projects",
+    "blog": "Blog",
+    "contact": "Contact",
+    "services": "Services"
+  },
+  "hero": {
+    "title": "WordPress builds and bookings that perform",
+    "subtitle": "Freelance in Bordeaux — bespoke showcase sites, technical SEO, restaurant bookings.",
+    "ctaProjects": "View projects",
+    "ctaContact": "Discuss your project"
+  },
+  "pages": {
+    "about": {
+      "title": "About",
+      "intro": "Digital project lead (ESD Bordeaux, 3rd year), a blend of UX, tech and SEO. Rigour, curiosity and teamwork to ship useful and performant products."
+    },
+    "blog": {
+      "title": "Blog",
+      "soon": "Articles on technical SEO and checklists coming soon."
+    },
+    "projects": {
+      "title": "Projects"
+    },
+    "contact": {
+      "title": "Contact"
+    }
+  },
+  "about": {
+    "sections": {
+      "identity": "Identity",
+      "education": "Education",
+      "experience": "Experience",
+      "school": "School projects",
+      "skills": "Technical skills"
+    },
+    "interests": "Interests",
+    "contactCta": "Contact me",
+    "cv": {
+      "title": "Download resume",
+      "button": "Download resume (PDF)"
+    }
+  },
+  "home": {
+    "testimonials": {
+      "title": "Testimonials",
+      "items": [
+        {"name": "Restaurant owner", "role": "Owner", "quote": "Fast setup, smooth bookings, fewer phone calls."},
+        {"name": "Entrepreneur", "role": "Founder", "quote": "Clean WordPress build, easy to edit, very responsive."}
+      ]
+    }
+  },
+  "pages_meta": {
+    "legal": {"title": "Legal"},
+    "privacy": {"title": "Privacy policy"}
+  },
+  "contact": {
+    "form": {
+      "name": "Name",
+      "email": "Email",
+      "message": "Message",
+      "submit": "Send",
+      "success": "Message sent.",
+      "error": "Sending failed."
+    }
+  },
+  "servicesIndex": {
+    "seo": {
+      "title": "Freelance web services",
+      "description": "Custom WordPress builds and restaurant reservation solutions."
+    },
+    "hero": {
+      "title": "Services",
+      "subtitle": "Two focused offerings: bespoke WordPress and online bookings."
+    },
+    "cards": {
+      "wordpress": {
+        "title": "Custom WordPress theme",
+        "desc": "Fast, editable and SEO‑ready showcase site."
+      },
+      "restaurant": {
+        "title": "Restaurant bookings",
+        "desc": "Reservations, notifications and deposits, integrated into your site."
+      }
+    },
+    "cta": {
+      "view": "View",
+      "contact": "Discuss your needs"
+    },
+    "bottomCta": {
+      "title": "Got a specific need?",
+      "subtitle": "Tell me more — I’ll get back within 24h.",
+      "button": "Contact me"
+    }
+  },
+  "sections": {
+    "featured": "Featured projects",
+    "experience": "Experience",
+    "skills": "Skills",
+    "contact": "Contact"
+  },
+  "project": {
+    "embed": {
+      "show": "View demo",
+      "hide": "Hide demo",
+      "prototype": "View prototype"
+    }
+  },
+  "footer": {
+    "legal": "Legal",
+    "pdf": "PDF Portfolio"
+  },
+  "services": {
+    "wordpress": {
+      "seo": {
+        "title": "Custom WordPress themes",
+        "description": "Fast showcase sites, technical SEO and responsive design — Bordeaux."
+      },
+      "hero": {
+        "title": "A fast, bespoke WordPress theme",
+        "subtitle": "From design to deployment — your SEO‑ready showcase website.",
+        "cta": "Discuss your project",
+        "secondaryCta": "View projects"
+      },
+      "features": {
+        "item1": {"title": "Performance & Core Web Vitals", "desc": "Fast loads, clean code, best practices."},
+        "item2": {"title": "Easy editing", "desc": "Clear back‑office, custom blocks, training included."},
+        "item3": {"title": "Technical SEO", "desc": "Tags, schemas, internal linking and structure."},
+        "item4": {"title": "Maintenance & scalability", "desc": "Ongoing care, security and improvements."}
+      },
+      "process": {
+        "step1": {"title": "Scoping", "desc": "Goals, content, sitemap and identity."},
+        "step2": {"title": "Design & build", "desc": "Figma UI then custom WordPress theme."},
+        "step3": {"title": "Go‑live", "desc": "QA, launch SEO, training and support."}
+      },
+      "cta": {
+        "title": "Ready to launch your website?",
+        "subtitle": "Reply within 24h, free quote.",
+        "button": "Contact me"
+      },
+      "pricing": {
+        "title": "Pricing",
+        "plans": {
+          "starter": {
+            "name": "Starter",
+            "price": "From €1,200",
+            "features": ["Custom showcase theme", "Core pages (Home, About, Contact)", "Technical SEO basics"]
+          },
+          "pro": {
+            "name": "Pro",
+            "price": "From €2,400",
+            "features": ["Figma design system", "Reusable blocks", "Core Web Vitals optimization"]
+          }
+        }
+      },
+      "faq": {
+        "title": "FAQ",
+        "items": [
+          {"q": "How long for a showcase site?", "a": "Between 2–4 weeks depending on content and revisions."},
+          {"q": "Can you manage hosting?", "a": "Yes — I advise and set up the right solution."}
+        ]
+      }
+    },
+    "restaurant": {
+      "seo": {
+        "title": "Online reservation system for restaurants",
+        "description": "Bookings, schedule, SMS/e‑mail, deposit — integrated into your site."
+      },
+      "hero": {
+        "title": "Frictionless online bookings",
+        "subtitle": "A complete system connected to your site, tailored to your service.",
+        "cta": "Install the solution",
+        "secondaryCta": "View projects"
+      },
+      "features": {
+        "item1": {"title": "Booking flow", "desc": "Hours, capacity, areas, constraints and no‑show."},
+        "item2": {"title": "Notifications", "desc": "SMS/e‑mail confirmations, reminders and cancellations."},
+        "item3": {"title": "Deposit & payments", "desc": "Deposits, cards, refunds and invoices."},
+        "item4": {"title": "Analytics & local SEO", "desc": "GA4, Google Business Profile and schema.org."}
+      },
+      "process": {
+        "step1": {"title": "Audit & needs", "desc": "Terrace, shifts, volumes, peaks and corner cases."},
+        "step2": {"title": "Integration", "desc": "Site connection, branding, copy and privacy."},
+        "step3": {"title": "Training & support", "desc": "Team onboarding, hotline and iterations."}
+      },
+      "cta": {
+        "title": "Let’s optimize your online bookings",
+        "subtitle": "Fewer calls, more covers.",
+        "button": "Discuss the project"
+      },
+      "pricing": {
+        "title": "Pricing",
+        "plans": {
+          "starter": {
+            "name": "Essential",
+            "price": "From €900",
+            "features": ["Reservation module", "E‑mail notifications", "Service configuration"]
+          },
+          "pro": {
+            "name": "Complete",
+            "price": "From €1,600",
+            "features": ["SMS + reminders", "Deposit & payments", "Dashboard and stats"]
+          }
+        }
+      },
+      "faq": {
+        "title": "FAQ",
+        "items": [
+          {"q": "Works with your current site?", "a": "Yes — integrates into WordPress or an existing site."},
+          {"q": "Handle no‑shows?", "a": "Deposits and reminders greatly reduce no‑shows."}
+        ]
+      }
+    }
+  }
+}
+
+
