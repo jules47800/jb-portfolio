@@ -5,10 +5,6 @@ import type {ReactNode} from "react";
 import type {Locale} from "@/lib/i18n";
 import {isLocale, locales} from "@/lib/i18n";
 import "@/app/globals.css";
-import {Header} from "@/components/global/Header";
-import {Footer} from "@/components/global/Footer";
-import {ThemeProvider} from "@/components/global/ThemeProvider";
-import {SEOProvider} from "@/components/global/SEOProvider";
 
 export function generateStaticParams() {
   return Array.from(locales).map((locale) => ({locale}));
@@ -32,16 +28,11 @@ export default async function LocaleLayout({
     <html lang={locale} suppressHydrationWarning>
       <body>
         <NextIntlClientProvider locale={locale} messages={messages}>
-          <ThemeProvider>
-            <SEOProvider />
-            <Header />
+          <div className="min-h-screen bg-background text-foreground">
             {children}
-            <Footer />
-          </ThemeProvider>
+          </div>
         </NextIntlClientProvider>
       </body>
     </html>
   );
 }
-
-
