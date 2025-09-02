@@ -8,10 +8,10 @@
     "services": "Services"
   },
   "hero": {
-    "title": "Sites WordPress sur‑mesure et réservations qui convertissent",
-    "subtitle": "Freelance à Bordeaux — vitrines rapides, SEO technique, systèmes de réservation taillés pour votre service.",
+    "title": "Chef de projet digital & Développeur WordPress",
+    "subtitle": "Étudiant ESD Bordeaux en recherche d'alternance • Freelance spécialisé en sites sur‑mesure et SEO technique",
     "ctaProjects": "Voir mes réalisations",
-    "ctaContact": "Demander un devis"
+    "ctaContact": "Me contacter"
   },
   "about": {
     "sections": {
@@ -29,10 +29,27 @@
     }
   },
   "home": {
+    "dual_path": {
+      "title": "Deux parcours, un même objectif : créer des solutions digitales",
+      "alternance": {
+        "title": "Recherche d'alternance",
+        "subtitle": "Chef de projet digital",
+        "description": "Étudiant en 3ème année à ESD Bordeaux, je recherche une alternance pour septembre 2024. Passionné par la gestion de projet digital, l'UX et le développement web.",
+        "skills": ["Gestion de projet Agile", "UX/UI Design", "Développement web", "SEO technique", "Analyse de données"],
+        "cta": "Voir mon profil"
+      },
+      "freelance": {
+        "title": "Services freelance",
+        "subtitle": "WordPress & Réservations",
+        "description": "En parallèle de mes études, je développe des sites WordPress sur-mesure et des systèmes de réservation pour restaurants et services.",
+        "skills": ["Sites WordPress", "SEO technique", "Réservations en ligne", "Performance web", "Maintenance"],
+        "cta": "Voir mes services"
+      }
+    },
     "testimonials": {
       "title": "Témoignages",
       "items": [
-        {"name": "Client restauration", "role": "Restaurateur", "quote": "Mise en place rapide, réservations fluides, moins d’appels au service."},
+        {"name": "Client restauration", "role": "Restaurateur", "quote": "Mise en place rapide, réservations fluides, moins d'appels au service."},
         {"name": "Entrepreneur", "role": "Fondateur", "quote": "Site WordPress propre et facile à éditer, super réactivité."}
       ]
     }

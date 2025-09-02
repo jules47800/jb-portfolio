@@ -83,6 +83,109 @@ export function HomeClient({ heroData, testimonialsData, projects, locale }: Hom
         </Container>
       </Section>
 
+      {/* Dual Path Section */}
+      <Section className="bg-gradient-to-b from-background to-muted/20">
+        <Container>
+          <div className="max-w-6xl mx-auto">
+            <Reveal>
+              <h2 className="text-3xl md:text-4xl font-bold text-center mb-16">
+                Deux parcours, un même objectif : créer des solutions digitales
+              </h2>
+            </Reveal>
+            
+            <div className="grid md:grid-cols-2 gap-8">
+              {/* Alternance Card */}
+              <Reveal delay={0.1}>
+                <div className="group relative overflow-hidden rounded-3xl bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-950/20 dark:to-indigo-950/20 p-8 border border-blue-200/50 dark:border-blue-800/50 hover:border-blue-500/30 transition-all duration-500 hover:shadow-2xl hover:scale-105">
+                  <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                  <div className="relative">
+                    <div className="flex items-center gap-3 mb-4">
+                      <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl flex items-center justify-center">
+                        <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2-2v2m8 0V6a2 2 0 012 2v6a2 2 0 01-2 2H8a2 2 0 01-2-2V8a2 2 0 012-2V6" />
+                        </svg>
+                      </div>
+                      <div>
+                        <div className="inline-flex items-center gap-2 px-3 py-1 bg-blue-500/10 text-blue-600 rounded-full text-sm font-medium">
+                          <div className="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></div>
+                          Recherche active
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <h3 className="text-2xl font-bold mb-2">Recherche d&apos;alternance</h3>
+                    <p className="text-blue-600 font-semibold mb-4">Chef de projet digital</p>
+                    <p className="text-muted-foreground mb-6 leading-relaxed">
+                      Étudiant en 3ème année à ESD Bordeaux, je recherche une alternance pour septembre 2024. Passionné par la gestion de projet digital, l&apos;UX et le développement web.
+                    </p>
+                    
+                    <div className="space-y-2 mb-6">
+                      {["Gestion de projet Agile", "UX/UI Design", "Développement web", "SEO technique", "Analyse de données"].map((skill, index) => (
+                        <div key={index} className="flex items-center gap-2 text-sm">
+                          <div className="w-1.5 h-1.5 bg-blue-500 rounded-full"></div>
+                          <span className="text-muted-foreground">{skill}</span>
+                        </div>
+                      ))}
+                    </div>
+                    
+                    <Link href={`/${locale}/about`} className="inline-flex items-center text-blue-600 hover:text-blue-700 font-semibold group-hover:underline">
+                      Voir mon profil
+                      <svg className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                      </svg>
+                    </Link>
+                  </div>
+                </div>
+              </Reveal>
+
+              {/* Freelance Card */}
+              <Reveal delay={0.2}>
+                <div className="group relative overflow-hidden rounded-3xl bg-gradient-to-br from-green-50 to-emerald-50 dark:from-green-950/20 dark:to-emerald-950/20 p-8 border border-green-200/50 dark:border-green-800/50 hover:border-green-500/30 transition-all duration-500 hover:shadow-2xl hover:scale-105">
+                  <div className="absolute inset-0 bg-gradient-to-br from-green-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                  <div className="relative">
+                    <div className="flex items-center gap-3 mb-4">
+                      <div className="w-12 h-12 bg-gradient-to-br from-green-500 to-green-600 rounded-2xl flex items-center justify-center">
+                        <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                        </svg>
+                      </div>
+                      <div>
+                        <div className="inline-flex items-center gap-2 px-3 py-1 bg-green-500/10 text-green-600 rounded-full text-sm font-medium">
+                          <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                          Disponible
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <h3 className="text-2xl font-bold mb-2">Services freelance</h3>
+                    <p className="text-green-600 font-semibold mb-4">WordPress & Réservations</p>
+                    <p className="text-muted-foreground mb-6 leading-relaxed">
+                      En parallèle de mes études, je développe des sites WordPress sur-mesure et des systèmes de réservation pour restaurants et services.
+                    </p>
+                    
+                    <div className="space-y-2 mb-6">
+                      {["Sites WordPress", "SEO technique", "Réservations en ligne", "Performance web", "Maintenance"].map((skill, index) => (
+                        <div key={index} className="flex items-center gap-2 text-sm">
+                          <div className="w-1.5 h-1.5 bg-green-500 rounded-full"></div>
+                          <span className="text-muted-foreground">{skill}</span>
+                        </div>
+                      ))}
+                    </div>
+                    
+                    <Link href={`/${locale}/services`} className="inline-flex items-center text-green-600 hover:text-green-700 font-semibold group-hover:underline">
+                      Voir mes services
+                      <svg className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                      </svg>
+                    </Link>
+                  </div>
+                </div>
+              </Reveal>
+            </div>
+          </div>
+        </Container>
+      </Section>
+
       {/* Services Section */}
       <Section className="bg-gradient-to-b from-muted/20 to-background">
         <Container>
