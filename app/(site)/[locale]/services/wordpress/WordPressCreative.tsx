@@ -50,7 +50,7 @@ export function WordPressCreative({ locale, translations }: WordPressCreativePro
       setCurrentFont((prev) => (prev + 1) % fonts.length);
     }, 2000);
     return () => clearInterval(interval);
-  }, [isAutoPlay]);
+  }, [isAutoPlay, fonts.length]);
 
   const handleFontHover = (index: number) => {
     setIsAutoPlay(false);
@@ -156,7 +156,7 @@ export function WordPressCreative({ locale, translations }: WordPressCreativePro
               <span className="font-serif text-purple-600">Votre</span>{" "}
               <span className="font-sans text-blue-600">Marque</span>{" "}
               <span className="font-mono text-green-600">Mérite</span>{" "}
-              <span className="font-serif italic text-pink-600">L'Exception</span>
+              <span className="font-serif italic text-pink-600">L&apos;Exception</span>
             </h2>
           </div>
 
@@ -168,7 +168,7 @@ export function WordPressCreative({ locale, translations }: WordPressCreativePro
                   Prestige & Raffinement
                 </h3>
                 <p className="font-serif text-lg text-gray-600 dark:text-gray-400 leading-relaxed">
-                  Donnez à votre marque l'élégance qu'elle mérite avec des designs intemporels.
+                  Donnez à votre marque l&apos;élégance qu&apos;elle mérite avec des designs intemporels.
                 </p>
               </div>
 

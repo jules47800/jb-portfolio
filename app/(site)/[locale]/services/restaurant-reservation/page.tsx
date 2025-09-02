@@ -4,7 +4,7 @@ import {getTranslations} from "next-intl/server";
 import {Container} from "@/components/global/Container";
 import {Section} from "@/components/global/Section";
 import {ReservationCarousel} from "@/components/demo/ReservationCarousel";
-import {Fragment} from "react";
+
 
 export async function generateMetadata({params}: {params: {locale: string}}): Promise<Metadata> {
   const t = await getTranslations({locale: params.locale, namespace: "services.restaurant.seo"});
@@ -40,7 +40,7 @@ export default async function RestaurantReservationServicePage({params}: {params
           <div className="mt-12 text-center">
             <div className="inline-flex items-center gap-4 p-6 bg-gradient-to-r from-primary/5 to-accent/5 rounded-2xl border border-primary/20 hover:border-primary/30 transition-colors">
               <div className="text-muted-foreground">
-                <div className="font-semibold text-foreground mb-1">Découvrez l'étude de cas complète</div>
+                <div className="font-semibold text-foreground mb-1">Découvrez l&apos;étude de cas complète</div>
                 <div className="text-sm">Implémentation réelle pour le restaurant Le Margo</div>
               </div>
               <Link
@@ -431,7 +431,7 @@ export default async function RestaurantReservationServicePage({params}: {params
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
                   </svg>
-                  Voir l'étude de cas
+                  Voir l&apos;étude de cas
                 </Link>
               </div>
               
