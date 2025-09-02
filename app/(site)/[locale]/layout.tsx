@@ -5,6 +5,8 @@ import type {ReactNode} from "react";
 import type {Locale} from "@/lib/i18n";
 import {isLocale, locales} from "@/lib/i18n";
 import "@/app/globals.css";
+import {SimpleHeader} from "@/components/global/SimpleHeader";
+import {SimpleFooter} from "@/components/global/SimpleFooter";
 
 export function generateStaticParams() {
   return Array.from(locales).map((locale) => ({locale}));
@@ -29,7 +31,11 @@ export default async function LocaleLayout({
       <body>
         <NextIntlClientProvider locale={locale} messages={messages}>
           <div className="min-h-screen bg-background text-foreground">
-            {children}
+            <SimpleHeader />
+            <main className="flex-1">
+              {children}
+            </main>
+            <SimpleFooter />
           </div>
         </NextIntlClientProvider>
       </body>
