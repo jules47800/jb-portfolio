@@ -94,7 +94,7 @@ export default async function ServicesIndexPage({params}: {params: Promise<{loca
               </div>
               <h3 className="text-xl font-bold mb-3">2. Conception</h3>
               <p className="text-muted-foreground leading-relaxed">
-                Design et architecture technique pensés pour la performance et l'évolutivité
+                Design et architecture technique pensés pour la performance et l&apos;évolutivité
               </p>
             </div>
             

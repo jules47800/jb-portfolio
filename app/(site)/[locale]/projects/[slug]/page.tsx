@@ -91,7 +91,7 @@ export default async function ProjectPage({params}: {params: Promise<{slug: stri
                   <div className="text-center">
                     <h3 className="text-2xl font-semibold text-foreground mb-3">Découvrez le Système en Action</h3>
                     <p className="text-muted-foreground mb-6 max-w-2xl mx-auto">
-                      Explorez l'interface d'administration complète et les statistiques avancées développées pour ce projet. 
+                      Explorez l&apos;interface d&apos;administration complète et les statistiques avancées développées pour ce projet. 
                       Démonstration interactive avec données réelles.
                     </p>
                     <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">

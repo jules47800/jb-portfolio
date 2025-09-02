@@ -196,7 +196,7 @@ export function HomeClient({ heroData, testimonialsData, projects, locale }: Hom
                   <div className="group relative overflow-hidden rounded-3xl bg-gradient-to-br from-card to-muted/20 p-8 border border-border/50 hover:border-primary/20 transition-all duration-500 hover:shadow-xl">
                     <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                     <div className="relative">
-                      <div className="text-4xl text-primary mb-4 opacity-50">"</div>
+                      <div className="text-4xl text-primary mb-4 opacity-50">&ldquo;</div>
                       <p className="text-muted-foreground text-lg leading-relaxed mb-6">{item.quote}</p>
                       <div className="flex items-center gap-4">
                         <div className="w-12 h-12 bg-gradient-to-br from-primary/20 to-primary/10 rounded-full flex items-center justify-center">
