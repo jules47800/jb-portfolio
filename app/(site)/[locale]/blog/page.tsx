@@ -1,10 +1,10 @@
-import type {Metadata} from "next";
+
 import {getTranslations} from "next-intl/server";
 import {listMDX} from "@/lib/mdx";
 import {Container} from "@/components/global/Container";
 import Link from "next/link";
 
-export async function generateMetadata({params}: {params: Promise<{locale: string}>}) {
+export async function generateMetadata({params}: {params: Promise<{locale: string}>}): Promise<{title: string}> {
   const {locale} = await params;
   const t = await getTranslations({locale, namespace: "pages.blog"});
   return {title: t("title")};

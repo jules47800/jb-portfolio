@@ -10,7 +10,7 @@ export async function generateMetadata({params}: {params: {locale: string}}): Pr
   };
 }
 
-export default async function WordPressServicePage({params}: {params: {locale: string}}) {
+export default async function WordPressServicePage(_params: {params: {locale: string}}) {
   return <WordPressCreative />;
 }
 

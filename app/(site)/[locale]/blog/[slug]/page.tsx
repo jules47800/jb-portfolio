@@ -133,7 +133,7 @@ export default async function BlogPost({params}: {params: Promise<{slug: string;
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
                       </svg>
                     </div>
-                    <span>Niveau {(frontmatter as any).level || 'Intermédiaire'}</span>
+                    <span>Niveau {(frontmatter as {level?: string}).level || 'Intermédiaire'}</span>
                   </div>
                 </div>
               </header>
