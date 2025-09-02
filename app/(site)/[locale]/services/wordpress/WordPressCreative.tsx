@@ -29,7 +29,7 @@ export function WordPressCreative({ locale, translations }: WordPressCreativePro
 
   const fonts = [
     "font-serif",
-    "font-sans", 
+    "font-sans font-bold", 
     "font-mono",
     "font-serif italic",
     "font-sans font-light"
@@ -37,7 +37,7 @@ export function WordPressCreative({ locale, translations }: WordPressCreativePro
 
   const fontNames = [
     "Élégant & Raffiné",
-    "Moderne & Épuré", 
+    "Moderne & Audacieux", 
     "Créatif & Original",
     "Classique & Italique",
     "Minimaliste & Léger"

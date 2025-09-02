@@ -212,6 +212,16 @@
         ]
       }
     }
+  },
+  "pages_meta": {
+    "legal": {
+      "title": "Mentions légales",
+      "description": "Mentions légales du site de Jules Bursens, développeur web freelance à Bordeaux."
+    },
+    "privacy": {
+      "title": "Politique de confidentialité",
+      "description": "Politique de confidentialité et protection des données personnelles."
+    }
   }
 }
 
