@@ -72,7 +72,7 @@ export default async function AboutPage({params}: {params: Promise<{locale: stri
         <Section>
           <h2 className="text-3xl font-bold mb-8 text-center">{tAbout("sections.education")}</h2>
           <div className="space-y-4">
-            {education.map((e, index) => (
+            {education.map((e, _) => (
               <div key={e.title} className="group relative overflow-hidden rounded-2xl bg-gradient-to-r from-card to-muted/20 p-6 border border-border/50 hover:border-primary/20 transition-all duration-300 hover:shadow-lg">
                 <div className="absolute inset-0 bg-gradient-to-r from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                 <div className="relative flex items-start justify-between">
@@ -93,7 +93,7 @@ export default async function AboutPage({params}: {params: Promise<{locale: stri
         <Section>
           <h2 className="text-3xl font-bold mb-8 text-center">{tAbout("sections.experience")}</h2>
           <div className="grid gap-6">
-            {experiences.map((x, index) => (
+            {experiences.map((x, _) => (
               <div key={x.title} className="group relative overflow-hidden rounded-2xl bg-gradient-to-br from-card to-muted/20 p-6 border border-border/50 hover:border-primary/20 transition-all duration-300 hover:shadow-lg">
                 <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                 <div className="relative">
@@ -202,7 +202,7 @@ export default async function AboutPage({params}: {params: Promise<{locale: stri
         <Section>
           <h2 className="text-3xl font-bold mb-8 text-center">{tAbout("sections.school")}</h2>
           <div className="grid md:grid-cols-2 gap-6">
-            {schoolProjects.map((p, index) => (
+            {schoolProjects.map((p, _) => (
               <div key={p.title} className="group relative overflow-hidden rounded-2xl bg-gradient-to-br from-card to-muted/20 p-6 border border-border/50 hover:border-primary/20 transition-all duration-300 hover:shadow-lg">
                 <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                 <div className="relative">

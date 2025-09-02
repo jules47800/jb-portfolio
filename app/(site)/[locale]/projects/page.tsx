@@ -2,7 +2,6 @@ import {Container} from "@/components/global/Container";
 import {Section} from "@/components/global/Section";
 import {getTranslations} from "next-intl/server";
 import {listMDX} from "@/lib/mdx";
-import {ProjectCard} from "@/components/cards/ProjectCard";
 import {ProjectsClient} from "./ProjectsClient";
 import Link from "next/link";
 

@@ -1,9 +1,5 @@
 import {getTranslations} from "next-intl/server";
-import {Container} from "@/components/global/Container";
-import {Section} from "@/components/global/Section";
-import {ProjectCard} from "@/components/cards/ProjectCard";
 import {listMDX} from "@/lib/mdx";
-import Link from "next/link";
 import {HomeClient} from "./HomeClient";
 
 export async function generateMetadata({params}: {params: Promise<{locale: string}>}) {

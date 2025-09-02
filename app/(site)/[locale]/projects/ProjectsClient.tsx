@@ -75,7 +75,7 @@ export function ProjectsClient({ projects }: ProjectsClientProps) {
             </div>
             <h3 className="text-xl font-semibold mb-2">Aucun projet trouvé</h3>
             <p className="text-muted-foreground">
-              Essayez un autre filtre pour découvrir d'autres réalisations
+              Essayez un autre filtre pour découvrir d&apos;autres réalisations
             </p>
           </div>
         </Reveal>

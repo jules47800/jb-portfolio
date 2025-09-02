@@ -81,7 +81,7 @@ export default async function ContactPage({params}: {params: Promise<{locale: st
               </div>
               <p className="text-green-700 dark:text-green-300 leading-relaxed">
                 Je m'engage à répondre à votre message sous <strong>24h maximum</strong>. 
-                Pour les demandes urgentes, n'hésitez pas à m'appeler directement.
+                Pour les demandes urgentes, n&apos;hésitez pas à m&apos;appeler directement.
               </p>
             </div>
 

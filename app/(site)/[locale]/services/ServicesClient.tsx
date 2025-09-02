@@ -123,7 +123,7 @@ export function ServicesClient({ servicesData, locale }: ServicesClientProps) {
               </div>
               <div className="flex items-center gap-3">
                 <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                <span className="text-sm font-medium">Gestion d'acomptes</span>
+                <span className="text-sm font-medium">Gestion d&apos;acomptes</span>
               </div>
             </div>
             
