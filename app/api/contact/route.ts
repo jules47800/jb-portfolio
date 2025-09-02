@@ -24,7 +24,7 @@ export async function POST(request: Request) {
   // Priorité 1: SMTP de l'hébergeur
   if (smtpHost && smtpPort && smtpUser && smtpPass && contactTo) {
     try {
-      const transporter = nodemailer.createTransporter({
+      const transporter = nodemailer.createTransport({
         host: smtpHost,
         port: parseInt(smtpPort),
         secure: parseInt(smtpPort) === 465, // true pour 465, false pour autres ports
