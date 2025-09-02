@@ -206,7 +206,7 @@ export function ReservationDemo() {
       {/* Reservations List */}
       <div className="p-6">
         <div className="space-y-4">
-          {filteredReservations.map((reservation, index) => {
+          {filteredReservations.map((reservation, _) => {
             const { day, date } = formatDate(reservation.date);
             const statusStyle = statusConfig[reservation.status];
             

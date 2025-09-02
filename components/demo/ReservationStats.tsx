@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { Calendar, TrendingUp, Users, Clock, AlertCircle, CheckCircle, XCircle, BarChart3, PieChart } from "lucide-react";
+import { Calendar, TrendingUp, Users, Clock, AlertCircle, CheckCircle, BarChart3, PieChart } from "lucide-react";
 
 interface StatCard {
   label: string;
@@ -13,7 +13,7 @@ interface StatCard {
 
 const kpiData: StatCard[] = [
   { label: "Total réservations", value: "128", icon: <Calendar className="w-5 h-5" />, color: "text-primary" },
-  { label: "Taux d'occupation moyen", value: "56.6%", icon: <BarChart3 className="w-5 h-5" />, color: "text-green-600" },
+  { label: "Taux d&apos;occupation moyen", value: "56.6%", icon: <BarChart3 className="w-5 h-5" />, color: "text-green-600" },
   { label: "Taux de No-Show", value: "2.3%", icon: <AlertCircle className="w-5 h-5" />, color: "text-red-600" },
   { label: "Jours moyens entre visites", value: "8.3", icon: <Clock className="w-5 h-5" />, color: "text-blue-600" },
   { label: "Taux de rétention (30j)", value: "0%", icon: <TrendingUp className="w-5 h-5" />, color: "text-orange-600" }
@@ -60,7 +60,7 @@ export function ReservationStats() {
   const maxGroupSize = Math.max(...groupSizeData.map(g => g.count));
   const maxWeekday = Math.max(...weekdayData.map(w => w.reservations));
 
-  // Animation d'apparition
+  // Animation d&apos;apparition
   React.useEffect(() => {
     const timer = setTimeout(() => setIsVisible(true), 100);
     return () => clearTimeout(timer);
@@ -115,11 +115,11 @@ export function ReservationStats() {
         ))}
       </div>
 
-      {/* Taux d'occupation */}
+      {/* Taux d&apos;occupation */}
       <div className="bg-white dark:bg-card rounded-2xl p-6 border border-border/50 shadow-sm">
         <h4 className="text-xl font-semibold text-foreground mb-6 flex items-center gap-2">
           <TrendingUp className="w-5 h-5 text-primary" />
-          Taux d'Occupation (30 derniers jours)
+          Taux d&apos;Occupation (30 derniers jours)
         </h4>
         
         <div className="space-y-4">
@@ -267,7 +267,7 @@ export function ReservationStats() {
             
             <div className="flex items-center justify-between p-4 bg-blue-50 dark:bg-blue-950/20 rounded-lg border border-blue-200 dark:border-blue-800">
               <div>
-                <div className="font-medium text-blue-800 dark:text-blue-200">Taux d'occupation</div>
+                <div className="font-medium text-blue-800 dark:text-blue-200">Taux d&apos;occupation</div>
                 <div className="text-sm text-blue-600 dark:text-blue-400">Performance moyenne</div>
               </div>
               <div className="text-2xl font-bold text-blue-600">56.6%</div>

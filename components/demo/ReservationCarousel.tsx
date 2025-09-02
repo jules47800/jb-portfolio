@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { ChevronLeft, ChevronRight, BarChart3, Calendar, Users, Settings, Bell, FileText, TrendingUp, Clock } from "lucide-react";
+import { ChevronLeft, ChevronRight, BarChart3, Calendar, Users, Bell, FileText, TrendingUp, Clock } from "lucide-react";
 import { ReservationDemo } from "./ReservationDemo";
 import { ReservationStats } from "./ReservationStats";
 
@@ -226,7 +226,7 @@ export function ReservationCarousel() {
                   <TrendingUp className="w-12 h-12 text-blue-600 mx-auto mb-4" />
                   <h4 className="text-xl font-bold text-foreground mb-3">Financier</h4>
                   <ul className="text-sm text-muted-foreground space-y-2 text-left">
-                    <li>• Chiffre d'affaires</li>
+                    <li>• Chiffre d&apos;affaires</li>
                     <li>• Ticket moyen</li>
                     <li>• Évolution mensuelle</li>
                     <li>• Prévisions</li>
@@ -252,7 +252,7 @@ export function ReservationCarousel() {
                   <Clock className="w-12 h-12 text-purple-600 mx-auto mb-4" />
                   <h4 className="text-xl font-bold text-foreground mb-3">Activité</h4>
                   <ul className="text-sm text-muted-foreground space-y-2 text-left">
-                    <li>• Taux d'occupation</li>
+                    <li>• Taux d&apos;occupation</li>
                     <li>• Heures de pointe</li>
                     <li>• Jours populaires</li>
                     <li>• Performance équipe</li>
@@ -263,7 +263,7 @@ export function ReservationCarousel() {
 
             {/* Export Options */}
             <div className="max-w-3xl mx-auto">
-              <h4 className="text-xl font-bold text-foreground mb-6">Formats d'export disponibles</h4>
+              <h4 className="text-xl font-bold text-foreground mb-6">Formats d&apos;export disponibles</h4>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                 <div className="flex items-center gap-3 p-4 bg-muted/30 rounded-xl">
                   <div className="w-8 h-8 bg-green-100 dark:bg-green-950/20 rounded-lg flex items-center justify-center">
