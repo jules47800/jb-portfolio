@@ -59,6 +59,12 @@ export function SimpleHeader() {
             {t("projects")}
           </Link>
           <Link 
+            href={`/${locale}/blog`}
+            className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
+          >
+            {t("blog")}
+          </Link>
+          <Link 
             href={`/${locale}/services`}
             className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
           >
@@ -166,6 +172,12 @@ export function SimpleHeader() {
                 className="block px-4 py-3 text-lg font-medium text-muted-foreground hover:text-foreground hover:bg-muted/50 rounded-lg transition-all duration-200"
               >
                 {t("projects")}
+              </Link>
+              <Link 
+                href={`/${locale}/blog`}
+                className="block px-4 py-3 text-lg font-medium text-muted-foreground hover:text-foreground hover:bg-muted/50 rounded-lg transition-all duration-200"
+              >
+                {t("blog")}
               </Link>
               <Link 
                 href={`/${locale}/services`}
