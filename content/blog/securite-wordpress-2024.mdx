@@ -1,0 +1,613 @@
+---
+title: "Sécurité WordPress 2024 : Blindez votre site"
+slug: "securite-wordpress-2024"
+summary: "Guide complet sécurité WordPress. Firewall, authentification 2FA, monitoring et techniques avancées pour un site inviolable."
+tags: ["sécurité", "wordpress", "firewall", "monitoring"]
+level: "Avancé"
+---
+
+## Sécurité WordPress : enjeux critiques
+
+**43% des sites web** utilisent WordPress. Résultat ? C'est la cible n°1 des hackers. Voici comment transformer votre site en forteresse numérique.
+
+<div className="grid grid-cols-1 md:grid-cols-3 gap-6 my-8">
+  <Metric label="Sites hackés/jour" value={30000} unit="" />
+  <Metric label="Coût moyen hack" value={25000} unit="€" />
+  <Metric label="Temps de récupération" value={23} unit="j" />
+</div>
+
+<Tip type="warning">
+Un site hacké = perte de données, chute SEO, confiance clients détruite. La prévention coûte **100x moins cher** que la réparation.
+</Tip>
+
+## Authentification : première ligne de défense
+
+### Authentification à deux facteurs (2FA)
+
+<Demo title="Simulation connexion avec 2FA">
+  <div className="space-y-4 max-w-md mx-auto">
+    <div className="p-4 border rounded-lg">
+      <h4 className="font-semibold mb-3">Étape 1 : Identifiants</h4>
+      <div className="space-y-2">
+        <input type="text" placeholder="admin@monsite.fr" className="w-full p-2 border rounded" disabled />
+        <input type="password" placeholder="••••••••••••" className="w-full p-2 border rounded" disabled />
+        <button className="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600">Se connecter</button>
+      </div>
+    </div>
+    
+    <div className="flex items-center justify-center">
+      <div className="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center text-white">✓</div>
+    </div>
+    
+    <div className="p-4 border rounded-lg bg-yellow-50">
+      <h4 className="font-semibold mb-3">Étape 2 : Code 2FA</h4>
+      <div className="space-y-2">
+        <div className="text-center">
+          <div className="inline-flex gap-2">
+            <input type="text" maxLength={1} className="w-10 h-10 text-center border rounded font-mono text-lg" disabled value="7" />
+            <input type="text" maxLength={1} className="w-10 h-10 text-center border rounded font-mono text-lg" disabled value="3" />
+            <input type="text" maxLength={1} className="w-10 h-10 text-center border rounded font-mono text-lg" disabled value="9" />
+            <input type="text" maxLength={1} className="w-10 h-10 text-center border rounded font-mono text-lg" disabled value="1" />
+            <input type="text" maxLength={1} className="w-10 h-10 text-center border rounded font-mono text-lg" disabled value="2" />
+            <input type="text" maxLength={1} className="w-10 h-10 text-center border rounded font-mono text-lg" disabled value="8" />
+          </div>
+        </div>
+        <div className="text-xs text-center text-gray-500">Code généré par Google Authenticator</div>
+        <button className="w-full bg-green-500 text-white p-2 rounded hover:bg-green-600">Valider</button>
+      </div>
+    </div>
+  </div>
+</Demo>
+
+### Implémentation 2FA native
+
+<CodeBlock title="2FA sans plugin" language="php">
+{`// Génération de clé secrète 2FA
+function generate_2fa_secret($user_id) {
+    $secret = '';
+    $chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ234567';
+    for ($i = 0; $i < 32; $i++) {
+        $secret .= $chars[random_int(0, 31)];
+    }
+    update_user_meta($user_id, '2fa_secret', $secret);
+    return $secret;
+}
+
+// Validation code TOTP
+function verify_totp_code($secret, $code, $window = 1) {
+    $time = floor(time() / 30);
+    
+    for ($i = -$window; $i <= $window; $i++) {
+        $test_time = $time + $i;
+        $hash = hash_hmac('sha1', pack('N*', 0, $test_time), base32_decode($secret), true);
+        $offset = ord($hash[19]) & 0xf;
+        $otp = (
+            ((ord($hash[$offset]) & 0x7f) << 24) |
+            ((ord($hash[$offset + 1]) & 0xff) << 16) |
+            ((ord($hash[$offset + 2]) & 0xff) << 8) |
+            (ord($hash[$offset + 3]) & 0xff)
+        ) % 1000000;
+        
+        if ($otp === (int)$code) {
+            return true;
+        }
+    }
+    return false;
+}
+
+// Hook sur l'authentification
+add_action('wp_authenticate_user', function($user, $password) {
+    if (is_wp_error($user)) return $user;
+    
+    $secret = get_user_meta($user->ID, '2fa_secret', true);
+    if (!$secret) return $user;
+    
+    $code = $_POST['2fa_code'] ?? '';
+    if (empty($code) || !verify_totp_code($secret, $code)) {
+        return new WP_Error('2fa_required', 'Code 2FA requis ou invalide');
+    }
+    
+    return $user;
+}, 10, 2);`}
+</CodeBlock>
+
+## Firewall applicatif : bouclier intelligent
+
+### Détection d'intrusion en temps réel
+
+<BeforeAfter 
+  before={
+    <div>
+      <h4 className="font-semibold mb-4">❌ Sans firewall</h4>
+      <div className="space-y-2 text-sm">
+        <div className="p-2 bg-red-50 rounded border-l-4 border-red-400">
+          <div className="font-mono">POST /wp-login.php</div>
+          <div className="text-red-600">🚨 Brute force : 1,247 tentatives</div>
+        </div>
+        <div className="p-2 bg-red-50 rounded border-l-4 border-red-400">
+          <div className="font-mono">GET /?s={"<script>"}</div>
+          <div className="text-red-600">🚨 XSS : Injection script</div>
+        </div>
+        <div className="p-2 bg-red-50 rounded border-l-4 border-red-400">
+          <div className="font-mono">POST /wp-admin/admin-ajax.php</div>
+          <div className="text-red-600">🚨 SQL Injection détectée</div>
+        </div>
+        <div className="mt-2 text-center text-red-600 font-bold">
+          Site compromis en 2h37min
+        </div>
+      </div>
+    </div>
+  }
+  after={
+    <div>
+      <h4 className="font-semibold mb-4">✅ Avec firewall intelligent</h4>
+      <div className="space-y-2 text-sm">
+        <div className="p-2 bg-green-50 rounded border-l-4 border-green-400">
+          <div className="font-mono">POST /wp-login.php</div>
+          <div className="text-green-600">🛡️ IP bloquée après 3 tentatives</div>
+        </div>
+        <div className="p-2 bg-green-50 rounded border-l-4 border-green-400">
+          <div className="font-mono">GET /?s={"<script>"}</div>
+          <div className="text-green-600">🛡️ XSS neutralisé automatiquement</div>
+        </div>
+        <div className="p-2 bg-green-50 rounded border-l-4 border-green-400">
+          <div className="font-mono">POST /wp-admin/admin-ajax.php</div>
+          <div className="text-green-600">🛡️ SQL Injection bloquée</div>
+        </div>
+        <div className="mt-2 text-center text-green-600 font-bold">
+          0 intrusion réussie en 12 mois
+        </div>
+      </div>
+    </div>
+  }
+/>
+
+### Firewall personnalisé
+
+<CodeBlock title="Firewall WordPress avancé" language="php">
+{`// Firewall applicatif complet
+class WPFirewall {
+    private $blocked_ips = [];
+    private $suspicious_patterns = [
+        '/\b(union|select|insert|delete|drop|create|alter)\b/i',
+        '/<script[^>]*>.*?<\/script>/is',
+        '/\.\.\//i',
+        '/proc\/self\/environ/i',
+        '/etc\/passwd/i'
+    ];
+    
+    public function __construct() {
+        add_action('init', [$this, 'check_request'], 1);
+        add_action('wp_login_failed', [$this, 'handle_failed_login']);
+    }
+    
+    public function check_request() {
+        $ip = $this->get_real_ip();
+        
+        // Vérification IP bloquée
+        if ($this->is_ip_blocked($ip)) {
+            $this->block_request('IP bloquée');
+        }
+        
+        // Analyse des patterns suspects
+        $request_data = array_merge($_GET, $_POST, $_SERVER);
+        foreach ($request_data as $key => $value) {
+            if ($this->contains_malicious_pattern($value)) {
+                $this->log_attack($ip, $key, $value);
+                $this->block_request('Pattern malveillant détecté');
+            }
+        }
+        
+        // Rate limiting
+        if ($this->is_rate_limited($ip)) {
+            $this->block_request('Trop de requêtes');
+        }
+    }
+    
+    private function contains_malicious_pattern($input) {
+        foreach ($this->suspicious_patterns as $pattern) {
+            if (preg_match($pattern, $input)) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    private function handle_failed_login($username) {
+        $ip = $this->get_real_ip();
+        $attempts = get_transient("login_attempts_{$ip}") ?: 0;
+        $attempts++;
+        
+        set_transient("login_attempts_{$ip}", $attempts, HOUR_IN_SECONDS);
+        
+        // Blocage après 3 tentatives
+        if ($attempts >= 3) {
+            $this->block_ip($ip, 'Brute force login');
+        }
+    }
+    
+    private function block_ip($ip, $reason) {
+        $blocked_ips = get_option('firewall_blocked_ips', []);
+        $blocked_ips[$ip] = [
+            'reason' => $reason,
+            'blocked_at' => time(),
+            'expires' => time() + (24 * HOUR_IN_SECONDS)
+        ];
+        update_option('firewall_blocked_ips', $blocked_ips);
+        
+        // Log dans fichier sécurisé
+        error_log("[FIREWALL] IP {$ip} bloquée : {$reason}");
+    }
+    
+    private function block_request($reason) {
+        http_response_code(403);
+        header('Content-Type: application/json');
+        echo json_encode(['error' => 'Access denied', 'reason' => $reason]);
+        exit;
+    }
+    
+    private function get_real_ip() {
+        $headers = ['HTTP_X_FORWARDED_FOR', 'HTTP_X_REAL_IP', 'HTTP_CLIENT_IP'];
+        foreach ($headers as $header) {
+            if (!empty($_SERVER[$header])) {
+                $ips = explode(',', $_SERVER[$header]);
+                return trim($ips[0]);
+            }
+        }
+        return $_SERVER['REMOTE_ADDR'] ?? '';
+    }
+}
+
+new WPFirewall();`}
+</CodeBlock>
+
+## Monitoring et alertes
+
+### Dashboard sécurité en temps réel
+
+<Demo title="Centre de monitoring sécurité">
+  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <div className="space-y-4">
+      <h4 className="font-semibold">Statut système</h4>
+      <div className="space-y-2">
+        <div className="flex items-center justify-between p-2 bg-green-50 rounded">
+          <div className="flex items-center gap-2">
+            <div className="w-3 h-3 bg-green-500 rounded-full"></div>
+            <span className="text-sm">Firewall</span>
+          </div>
+          <span className="text-xs text-green-600">Actif</span>
+        </div>
+        <div className="flex items-center justify-between p-2 bg-green-50 rounded">
+          <div className="flex items-center gap-2">
+            <div className="w-3 h-3 bg-green-500 rounded-full"></div>
+            <span className="text-sm">SSL/TLS</span>
+          </div>
+          <span className="text-xs text-green-600">A+ Grade</span>
+        </div>
+        <div className="flex items-center justify-between p-2 bg-yellow-50 rounded">
+          <div className="flex items-center gap-2">
+            <div className="w-3 h-3 bg-yellow-500 rounded-full"></div>
+            <span className="text-sm">Plugins</span>
+          </div>
+          <span className="text-xs text-yellow-600">2 MAJ disponibles</span>
+        </div>
+      </div>
+    </div>
+    
+    <div className="space-y-4">
+      <h4 className="font-semibold">Activité suspecte</h4>
+      <div className="space-y-2">
+        <div className="p-2 bg-red-50 rounded text-sm">
+          <div className="font-mono text-xs">192.168.1.100</div>
+          <div className="text-red-600">🚨 5 tentatives login échouées</div>
+          <div className="text-xs text-gray-500">Il y a 2 min</div>
+        </div>
+        <div className="p-2 bg-orange-50 rounded text-sm">
+          <div className="font-mono text-xs">203.45.67.89</div>
+          <div className="text-orange-600">⚠️ Scan de vulnérabilités</div>
+          <div className="text-xs text-gray-500">Il y a 15 min</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div className="mt-6 grid grid-cols-2 md:grid-cols-4 gap-4">
+    <div className="text-center p-3 bg-blue-50 rounded">
+      <div className="text-2xl font-bold text-blue-600">247</div>
+      <div className="text-xs text-blue-600">Requêtes bloquées</div>
+    </div>
+    <div className="text-center p-3 bg-green-50 rounded">
+      <div className="text-2xl font-bold text-green-600">99.8%</div>
+      <div className="text-xs text-green-600">Uptime</div>
+    </div>
+    <div className="text-center p-3 bg-purple-50 rounded">
+      <div className="text-2xl font-bold text-purple-600">12</div>
+      <div className="text-xs text-purple-600">IPs bloquées</div>
+    </div>
+    <div className="text-center p-3 bg-orange-50 rounded">
+      <div className="text-2xl font-bold text-orange-600">3</div>
+      <div className="text-xs text-orange-600">Alertes actives</div>
+    </div>
+  </div>
+</Demo>
+
+### Système d'alertes intelligent
+
+<CodeBlock title="Monitoring et alertes" language="php">
+{`// Système de monitoring complet
+class SecurityMonitor {
+    private $alert_channels = ['email', 'slack', 'sms'];
+    
+    public function __construct() {
+        add_action('init', [$this, 'check_security_status']);
+        add_action('wp_login', [$this, 'log_successful_login'], 10, 2);
+        add_action('wp_login_failed', [$this, 'log_failed_login']);
+    }
+    
+    public function check_security_status() {
+        $issues = [];
+        
+        // Vérification version WordPress
+        if (!$this->is_wp_updated()) {
+            $issues[] = [
+                'type' => 'outdated_wp',
+                'severity' => 'high',
+                'message' => 'WordPress non à jour'
+            ];
+        }
+        
+        // Vérification plugins
+        $vulnerable_plugins = $this->scan_vulnerable_plugins();
+        if (!empty($vulnerable_plugins)) {
+            $issues[] = [
+                'type' => 'vulnerable_plugins',
+                'severity' => 'critical',
+                'message' => count($vulnerable_plugins) . ' plugins vulnérables',
+                'data' => $vulnerable_plugins
+            ];
+        }
+        
+        // Vérification permissions fichiers
+        if ($this->check_file_permissions()) {
+            $issues[] = [
+                'type' => 'file_permissions',
+                'severity' => 'medium',
+                'message' => 'Permissions fichiers incorrectes'
+            ];
+        }
+        
+        // Envoi alertes si nécessaire
+        foreach ($issues as $issue) {
+            $this->send_alert($issue);
+        }
+    }
+    
+    private function scan_vulnerable_plugins() {
+        $vulnerable = [];
+        $plugins = get_plugins();
+        
+        foreach ($plugins as $plugin_file => $plugin_data) {
+            // API de vérification vulnérabilités
+            $vulnerability_check = wp_remote_get(
+                "https://api.wpvulndb.com/v3/plugins/" . dirname($plugin_file),
+                ['headers' => ['Authorization' => 'Token ' . WPVULNDB_API_KEY]]
+            );
+            
+            if (!is_wp_error($vulnerability_check)) {
+                $body = json_decode(wp_remote_retrieve_body($vulnerability_check), true);
+                if (!empty($body['vulnerabilities'])) {
+                    $vulnerable[] = [
+                        'name' => $plugin_data['Name'],
+                        'version' => $plugin_data['Version'],
+                        'vulnerabilities' => count($body['vulnerabilities'])
+                    ];
+                }
+            }
+        }
+        
+        return $vulnerable;
+    }
+    
+    private function send_alert($issue) {
+        $message = $this->format_alert_message($issue);
+        
+        // Email admin
+        wp_mail(
+            get_option('admin_email'),
+            '[SÉCURITÉ] ' . $issue['message'],
+            $message,
+            ['Content-Type: text/html; charset=UTF-8']
+        );
+        
+        // Slack si configuré
+        if (defined('SLACK_WEBHOOK_URL')) {
+            wp_remote_post(SLACK_WEBHOOK_URL, [
+                'body' => json_encode([
+                    'text' => "🚨 Alerte sécurité : " . $issue['message'],
+                    'color' => $this->get_severity_color($issue['severity'])
+                ])
+            ]);
+        }
+        
+        // Log dans base
+        $this->log_security_event($issue);
+    }
+    
+    private function format_alert_message($issue) {
+        $template = '
+        <h2>🚨 Alerte Sécurité WordPress</h2>
+        <p><strong>Site :</strong> ' . get_site_url() . '</p>
+        <p><strong>Problème :</strong> ' . $issue['message'] . '</p>
+        <p><strong>Gravité :</strong> ' . strtoupper($issue['severity']) . '</p>
+        <p><strong>Date :</strong> ' . current_time('Y-m-d H:i:s') . '</p>
+        
+        <h3>Action recommandée :</h3>
+        <p>' . $this->get_recommendation($issue['type']) . '</p>
+        
+        <hr>
+        <p><small>Monitoring automatique - Ne pas répondre à cet email</small></p>
+        ';
+        
+        return $template;
+    }
+    
+    public function log_successful_login($user_login, $user) {
+        $this->log_event('login_success', [
+            'user' => $user_login,
+            'ip' => $this->get_client_ip(),
+            'user_agent' => $_SERVER['HTTP_USER_AGENT'] ?? ''
+        ]);
+    }
+    
+    private function log_event($type, $data) {
+        global $wpdb;
+        $wpdb->insert(
+            $wpdb->prefix . 'security_logs',
+            [
+                'event_type' => $type,
+                'event_data' => json_encode($data),
+                'ip_address' => $this->get_client_ip(),
+                'created_at' => current_time('mysql')
+            ]
+        );
+    }
+}
+
+new SecurityMonitor();`}
+</CodeBlock>
+
+## Sauvegardes sécurisées
+
+### Stratégie 3-2-1
+
+<Schema 
+  title="Règle 3-2-1 des sauvegardes"
+  steps={["3 copies", "2 supports différents", "1 hors site"]}
+/>
+
+<CodeBlock title="Sauvegarde automatisée sécurisée" language="php">
+{`// Système de sauvegarde chiffré
+class SecureBackup {
+    private $encryption_key;
+    private $backup_destinations = ['local', 's3', 'google_drive'];
+    
+    public function __construct() {
+        $this->encryption_key = get_option('backup_encryption_key') ?: $this->generate_key();
+        add_action('wp_scheduled_backup', [$this, 'create_secure_backup']);
+    }
+    
+    public function create_secure_backup() {
+        $backup_data = [
+            'database' => $this->export_database(),
+            'files' => $this->compress_files(),
+            'metadata' => [
+                'site_url' => get_site_url(),
+                'wp_version' => get_bloginfo('version'),
+                'created_at' => time()
+            ]
+        ];
+        
+        // Chiffrement AES-256
+        $encrypted_backup = $this->encrypt_data(json_encode($backup_data));
+        
+        // Stockage multi-destination
+        foreach ($this->backup_destinations as $destination) {
+            $this->store_backup($encrypted_backup, $destination);
+        }
+        
+        // Nettoyage anciennes sauvegardes (garde 30 jours)
+        $this->cleanup_old_backups();
+    }
+    
+    private function encrypt_data($data) {
+        $iv = openssl_random_pseudo_bytes(16);
+        $encrypted = openssl_encrypt($data, 'AES-256-CBC', $this->encryption_key, 0, $iv);
+        return base64_encode($iv . $encrypted);
+    }
+    
+    private function export_database() {
+        global $wpdb;
+        $tables = $wpdb->get_results('SHOW TABLES', ARRAY_N);
+        $sql_dump = '';
+        
+        foreach ($tables as $table) {
+            $table_name = $table[0];
+            $sql_dump .= "DROP TABLE IF EXISTS \`{$table_name}\`;\n";
+            
+            // Structure table
+            $create_table = $wpdb->get_row("SHOW CREATE TABLE \`{$table_name}\`", ARRAY_N);
+            $sql_dump .= $create_table[1] . ";\n\n";
+            
+            // Données table
+            $rows = $wpdb->get_results("SELECT * FROM \`{$table_name}\`", ARRAY_A);
+            foreach ($rows as $row) {
+                $values = array_map([$wpdb, 'prepare'], array_values($row));
+                $sql_dump .= "INSERT INTO \`{$table_name}\` VALUES (" . implode(', ', $values) . ");\n";
+            }
+            $sql_dump .= "\n";
+        }
+        
+        return gzcompress($sql_dump);
+    }
+    
+    private function store_backup($backup, $destination) {
+        $filename = 'backup_' . date('Y-m-d_H-i-s') . '.enc';
+        
+        switch ($destination) {
+            case 'local':
+                $backup_dir = WP_CONTENT_DIR . '/backups/';
+                if (!file_exists($backup_dir)) {
+                    wp_mkdir_p($backup_dir);
+                }
+                file_put_contents($backup_dir . $filename, $backup);
+                break;
+                
+            case 's3':
+                // Upload vers AWS S3
+                $this->upload_to_s3($backup, $filename);
+                break;
+                
+            case 'google_drive':
+                // Upload vers Google Drive
+                $this->upload_to_google_drive($backup, $filename);
+                break;
+        }
+    }
+}
+
+// Planification automatique
+if (!wp_next_scheduled('wp_scheduled_backup')) {
+    wp_schedule_event(time(), 'daily', 'wp_scheduled_backup');
+}
+
+new SecureBackup();`}
+</CodeBlock>
+
+## Checklist sécurité WordPress
+
+### Niveau Base (Obligatoire)
+- [ ] **Mises à jour** : WordPress, plugins, thèmes automatiques
+- [ ] **Authentification forte** : Mots de passe complexes + 2FA
+- [ ] **SSL/TLS** : Certificat valide + redirections HTTPS
+- [ ] **Sauvegardes** : Automatiques + testées + hors site
+- [ ] **Permissions fichiers** : 644 fichiers, 755 dossiers
+
+### Niveau Avancé (Recommandé)
+- [ ] **Firewall applicatif** : Détection intrusion temps réel
+- [ ] **Monitoring** : Logs sécurité + alertes automatiques
+- [ ] **Hardening** : wp-config sécurisé + constantes sécurité
+- [ ] **Scan vulnérabilités** : Plugins + thèmes + core
+- [ ] **Rate limiting** : Protection brute force avancée
+
+### Niveau Expert (Sites critiques)
+- [ ] **WAF externe** : Cloudflare, Sucuri ou équivalent
+- [ ] **Isolation** : Containers, chroot ou VM dédiée
+- [ ] **Audit code** : Scan statique + dynamique
+- [ ] **Incident response** : Plan de réponse + contacts
+- [ ] **Conformité** : RGPD, ISO 27001 si applicable
+
+<Tip type="tip">
+La sécurité WordPress n'est **jamais acquise**. C'est un processus continu qui demande veille, mise à jour et adaptation aux nouvelles menaces.
+</Tip>
+
+Un site WordPress sécurisé = **tranquillité d'esprit** + **confiance clients** + **business protégé**. L'investissement en vaut largement la chandelle !

@@ -1,0 +1,451 @@
+---
+title: "SEO Technique WordPress : Les secrets qui marchent"
+slug: "seo-technique-wordpress"  
+summary: "Techniques SEO avancées pour dominer Google. Schema markup, Core Web Vitals, et optimisations techniques qui font la différence."
+tags: ["seo", "technique", "wordpress", "schema"]
+level: "Expert"
+---
+
+## SEO technique : au-delà du contenu
+
+Le contenu reste roi, mais la **technique** fait la différence entre la page 1 et la page 10. Voici les leviers qui comptent vraiment.
+
+<Schema 
+  title="Pyramide SEO technique"
+  steps={["Crawl", "Index", "Rank", "Click", "Convert"]}
+/>
+
+## Structure HTML : les fondations invisibles
+
+Google lit votre HTML avant votre contenu. Une structure propre = meilleur classement.
+
+### Hiérarchie des titres parfaite
+
+<BeforeAfter 
+  before={
+    <div>
+      <h4 className="font-semibold mb-4">❌ Structure chaotique</h4>
+      <div className="space-y-1 text-sm font-mono">
+        <div className="p-2 bg-red-50 border-l-4 border-red-400">{'<h1>Titre principal</h1>'}</div>
+        <div className="p-2 bg-red-50 border-l-4 border-red-400">{'<h3>Section A</h3>'}</div>
+        <div className="p-2 bg-red-50 border-l-4 border-red-400">{'<h1>Autre titre ?</h1>'}</div>
+        <div className="p-2 bg-red-50 border-l-4 border-red-400">{'<h4>Sous-section</h4>'}</div>
+        <div className="p-2 bg-red-50 border-l-4 border-red-400">{'<h2>Section B</h2>'}</div>
+      </div>
+      <div className="mt-2 text-xs text-red-600">🚫 Google ne comprend pas la structure</div>
+    </div>
+  }
+  after={
+    <div>
+      <h4 className="font-semibold mb-4">✅ Hiérarchie logique</h4>
+      <div className="space-y-1 text-sm font-mono">
+        <div className="p-2 bg-green-50 border-l-4 border-green-400">{'<h1>Titre principal</h1>'}</div>
+        <div className="p-2 bg-green-50 border-l-4 border-green-400 ml-4">{'<h2>Section A</h2>'}</div>
+        <div className="p-2 bg-green-50 border-l-4 border-green-400 ml-8">{'<h3>Sous-section A1</h3>'}</div>
+        <div className="p-2 bg-green-50 border-l-4 border-green-400 ml-8">{'<h3>Sous-section A2</h3>'}</div>
+        <div className="p-2 bg-green-50 border-l-4 border-green-400 ml-4">{'<h2>Section B</h2>'}</div>
+      </div>
+      <div className="mt-2 text-xs text-green-600">✅ Structure claire pour Google</div>
+    </div>
+  }
+/>
+
+### Code d'optimisation automatique
+
+<CodeBlock title="Optimisation structure HTML" language="php">
+{`// Correction automatique de la hiérarchie H1-H6
+function fix_heading_hierarchy($content) {
+    // Détection des erreurs courantes
+    $content = preg_replace('/<h1[^>]*>.*?<\/h1>/i', '', $content, 1); // Supprime H1 en doublon
+    
+    // Force la hiérarchie logique
+    $headings = ['h6', 'h5', 'h4', 'h3', 'h2'];
+    $level = 2; // Commence après H1
+    
+    foreach ($headings as $heading) {
+        $content = preg_replace_callback(
+            "/<{$heading}[^>]*>(.*?)<\/{$heading}>/i",
+            function($matches) use ($level) {
+                return "<h{$level}>{$matches[1]}</h{$level}>";
+            },
+            $content
+        );
+        $level++;
+    }
+    
+    return $content;
+}
+add_filter('the_content', 'fix_heading_hierarchy');
+
+// Ajout automatique d'ancres pour la table des matières
+function add_heading_anchors($content) {
+    return preg_replace_callback(
+        '/<h([2-6])[^>]*>(.*?)<\/h[2-6]>/i',
+        function($matches) {
+            $anchor = sanitize_title($matches[2]);
+            return "<h{$matches[1]} id=\"{$anchor}\">{$matches[2]}</h{$matches[1]}>";
+        },
+        $content
+    );
+}
+add_filter('the_content', 'add_heading_anchors');`}
+</CodeBlock>
+
+## Schema Markup : parler la langue de Google
+
+Les données structurées transforment votre contenu en **informations exploitables** par Google.
+
+### Rich Snippets en action
+
+<Demo title="Aperçu Rich Snippet Article">
+  <div className="border rounded-lg p-4 bg-white shadow-sm max-w-2xl">
+    <div className="flex items-start gap-3">
+      <div className="w-20 h-20 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex-shrink-0"></div>
+      <div className="flex-1">
+        <h3 className="text-lg font-semibold text-blue-600 hover:underline cursor-pointer">
+          SEO Technique WordPress : Les secrets qui marchent
+        </h3>
+        <div className="text-sm text-green-600 mb-1">https://monsite.fr › blog › seo-technique</div>
+        <div className="text-sm text-gray-600 mb-2">
+          Techniques SEO avancées pour dominer Google. Schema markup, Core Web Vitals, et optimisations techniques...
+        </div>
+        <div className="flex items-center gap-4 text-xs text-gray-500">
+          <div className="flex items-center gap-1">
+            <span>⭐⭐⭐⭐⭐</span>
+            <span>4.8 (127 avis)</span>
+          </div>
+          <span>👤 Jules Bertrand</span>
+          <span>📅 15 déc. 2024</span>
+          <span>⏱️ 8 min de lecture</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</Demo>
+
+### Implémentation Schema Article
+
+<CodeBlock title="Schema markup automatique" language="php">
+{`// Génération automatique du Schema Article
+function generate_article_schema() {
+    if (!is_single()) return;
+    
+    global $post;
+    $author = get_the_author();
+    $featured_image = get_the_post_thumbnail_url($post->ID, 'full');
+    
+    $schema = [
+        "@context" => "https://schema.org",
+        "@type" => "Article",
+        "headline" => get_the_title(),
+        "description" => get_the_excerpt(),
+        "image" => $featured_image,
+        "author" => [
+            "@type" => "Person",
+            "name" => $author,
+            "url" => get_author_posts_url(get_the_author_meta('ID'))
+        ],
+        "publisher" => [
+            "@type" => "Organization",
+            "name" => get_bloginfo('name'),
+            "logo" => [
+                "@type" => "ImageObject",
+                "url" => get_site_icon_url()
+            ]
+        ],
+        "datePublished" => get_the_date('c'),
+        "dateModified" => get_the_modified_date('c'),
+        "mainEntityOfPage" => get_permalink(),
+        "wordCount" => str_word_count(strip_tags(get_the_content())),
+        "articleSection" => wp_get_post_categories($post->ID, ['fields' => 'names']),
+        "inLanguage" => get_locale()
+    ];
+    
+    // Ajout FAQ si présente
+    if (has_block('core/heading')) {
+        $faq_items = extract_faq_from_content(get_the_content());
+        if (!empty($faq_items)) {
+            $schema["mainEntity"] = [
+                "@type" => "FAQPage",
+                "mainEntity" => $faq_items
+            ];
+        }
+    }
+    
+    echo '<script type="application/ld+json">' . json_encode($schema, JSON_UNESCAPED_SLASHES) . '</script>';
+}
+add_action('wp_head', 'generate_article_schema');`}
+</CodeBlock>
+
+## Core Web Vitals : la technique au service de l'UX
+
+Google mesure l'expérience utilisateur via 3 métriques clés. Voici comment les optimiser.
+
+<div className="grid grid-cols-1 md:grid-cols-3 gap-6 my-8">
+  <div className="text-center">
+    <PerformanceGauge score={92} label="LCP < 2.5s" />
+    <div className="mt-2 text-sm text-gray-600">Largest Contentful Paint</div>
+  </div>
+  <div className="text-center">
+    <PerformanceGauge score={88} label="FID < 100ms" />
+    <div className="mt-2 text-sm text-gray-600">First Input Delay</div>
+  </div>
+  <div className="text-center">
+    <PerformanceGauge score={95} label="CLS < 0.1" />
+    <div className="mt-2 text-sm text-gray-600">Cumulative Layout Shift</div>
+  </div>
+</div>
+
+### Optimisation LCP (Largest Contentful Paint)
+
+<CodeBlock title="Préchargement ressources critiques" language="php">
+{`// Préchargement intelligent des ressources critiques
+function preload_critical_resources() {
+    // Hero image en priorité
+    if (is_front_page()) {
+        $hero_image = get_theme_mod('hero_image');
+        if ($hero_image) {
+            echo '<link rel="preload" as="image" href="' . $hero_image . '" fetchpriority="high">';
+        }
+    }
+    
+    // Police système en fallback
+    echo '<link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>';
+    echo '<link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" as="style">';
+    
+    // CSS critique inline
+    $critical_css = get_transient('critical_css_' . get_queried_object_id());
+    if (!$critical_css) {
+        $critical_css = generate_critical_css();
+        set_transient('critical_css_' . get_queried_object_id(), $critical_css, DAY_IN_SECONDS);
+    }
+    echo '<style>' . $critical_css . '</style>';
+}
+add_action('wp_head', 'preload_critical_resources', 1);
+
+// Lazy loading natif + intersection observer fallback
+function enhance_lazy_loading() {
+    ?>
+    <script>
+    // Fallback pour navigateurs sans support natif
+    if (!('loading' in HTMLImageElement.prototype)) {
+        const images = document.querySelectorAll('img[loading="lazy"]');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.src = entry.target.dataset.src;
+                    observer.unobserve(entry.target);
+                }
+            });
+        });
+        images.forEach(img => observer.observe(img));
+    }
+    </script>
+    <?php
+}
+add_action('wp_footer', 'enhance_lazy_loading');`}
+</CodeBlock>
+
+## Sitemap XML intelligent
+
+Un sitemap optimisé guide Google vers vos contenus prioritaires.
+
+<Demo title="Générateur de Sitemap intelligent">
+  <div className="space-y-4">
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div className="p-4 bg-blue-50 rounded-lg">
+        <h4 className="font-semibold text-blue-800 mb-2">Pages prioritaires</h4>
+        <div className="space-y-1 text-sm">
+          <div className="flex justify-between">
+            <span>Accueil</span>
+            <span className="text-blue-600 font-mono">1.0</span>
+          </div>
+          <div className="flex justify-between">
+            <span>Services</span>
+            <span className="text-blue-600 font-mono">0.9</span>
+          </div>
+          <div className="flex justify-between">
+            <span>À propos</span>
+            <span className="text-blue-600 font-mono">0.8</span>
+          </div>
+        </div>
+      </div>
+      
+      <div className="p-4 bg-green-50 rounded-lg">
+        <h4 className="font-semibold text-green-800 mb-2">Contenu dynamique</h4>
+        <div className="space-y-1 text-sm">
+          <div className="flex justify-between">
+            <span>Articles récents</span>
+            <span className="text-green-600 font-mono">0.7</span>
+          </div>
+          <div className="flex justify-between">
+            <span>Projets</span>
+            <span className="text-green-600 font-mono">0.6</span>
+          </div>
+          <div className="flex justify-between">
+            <span>Archives</span>
+            <span className="text-green-600 font-mono">0.4</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div className="p-4 bg-gray-50 rounded-lg">
+      <h4 className="font-semibold mb-2">Fréquence de crawl optimisée</h4>
+      <div className="text-sm space-y-1">
+        <div>🔄 <strong>Daily</strong> : Blog, actualités</div>
+        <div>🔄 <strong>Weekly</strong> : Pages services, projets</div>
+        <div>🔄 <strong>Monthly</strong> : Pages statiques, légales</div>
+      </div>
+    </div>
+  </div>
+</Demo>
+
+<CodeBlock title="Sitemap XML dynamique" language="php">
+{`// Génération de sitemap intelligent
+function generate_smart_sitemap() {
+    $sitemap = '<?xml version="1.0" encoding="UTF-8"?>';
+    $sitemap .= '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">';
+    
+    // Pages prioritaires avec logique business
+    $priority_pages = [
+        '' => ['priority' => '1.0', 'changefreq' => 'weekly'],
+        'services' => ['priority' => '0.9', 'changefreq' => 'monthly'],
+        'a-propos' => ['priority' => '0.8', 'changefreq' => 'monthly'],
+        'contact' => ['priority' => '0.7', 'changefreq' => 'yearly']
+    ];
+    
+    foreach ($priority_pages as $slug => $config) {
+        $url = home_url($slug);
+        $sitemap .= '<url>';
+        $sitemap .= '<loc>' . $url . '</loc>';
+        $sitemap .= '<lastmod>' . date('Y-m-d') . '</lastmod>';
+        $sitemap .= '<changefreq>' . $config['changefreq'] . '</changefreq>';
+        $sitemap .= '<priority>' . $config['priority'] . '</priority>';
+        $sitemap .= '</url>';
+    }
+    
+    // Articles avec priorité basée sur les performances
+    $posts = get_posts([
+        'numberposts' => -1,
+        'post_status' => 'publish',
+        'meta_query' => [
+            [
+                'key' => 'exclude_sitemap',
+                'compare' => 'NOT EXISTS'
+            ]
+        ]
+    ]);
+    
+    foreach ($posts as $post) {
+        // Calcul priorité basée sur trafic + récence
+        $views = get_post_meta($post->ID, 'post_views', true) ?: 0;
+        $days_old = (time() - strtotime($post->post_date)) / DAY_IN_SECONDS;
+        $priority = min(0.9, max(0.3, ($views / 1000) + (1 / ($days_old + 1))));
+        
+        $sitemap .= '<url>';
+        $sitemap .= '<loc>' . get_permalink($post->ID) . '</loc>';
+        $sitemap .= '<lastmod>' . mysql2date('Y-m-d', $post->post_modified) . '</lastmod>';
+        $sitemap .= '<changefreq>monthly</changefreq>';
+        $sitemap .= '<priority>' . number_format($priority, 1) . '</priority>';
+        $sitemap .= '</url>';
+    }
+    
+    $sitemap .= '</urlset>';
+    
+    // Cache 24h
+    set_transient('smart_sitemap', $sitemap, DAY_IN_SECONDS);
+    return $sitemap;
+}
+
+// Endpoint sitemap.xml
+add_action('init', function() {
+    add_rewrite_rule('^sitemap\.xml$', 'index.php?sitemap=1', 'top');
+});
+
+add_action('template_redirect', function() {
+    if (get_query_var('sitemap')) {
+        header('Content-Type: application/xml');
+        $sitemap = get_transient('smart_sitemap');
+        if (!$sitemap) {
+            $sitemap = generate_smart_sitemap();
+        }
+        echo $sitemap;
+        exit;
+    }
+});`}
+</CodeBlock>
+
+## Robots.txt intelligent
+
+<CodeBlock title="Robots.txt optimisé" language="text">
+{`User-agent: *
+Allow: /
+
+# Priorités pour Googlebot
+User-agent: Googlebot
+Crawl-delay: 1
+Allow: /wp-content/uploads/
+Disallow: /wp-content/plugins/
+Disallow: /wp-content/themes/
+Disallow: /wp-admin/
+Disallow: /wp-includes/
+Disallow: /wp-json/
+Disallow: /*?s=
+Disallow: /*?p=
+Disallow: /author/
+Disallow: /tag/
+Disallow: /date/
+
+# Ressources importantes
+Allow: /wp-content/themes/*/css/
+Allow: /wp-content/themes/*/js/
+Allow: /wp-content/themes/*/images/
+
+# Sitemap
+Sitemap: https://monsite.fr/sitemap.xml
+Sitemap: https://monsite.fr/sitemap-images.xml`}
+</CodeBlock>
+
+## Résultats SEO mesurables
+
+Après 3 mois d'optimisation technique sur un site WordPress :
+
+<div className="grid grid-cols-1 md:grid-cols-2 gap-8 my-8">
+  <div className="space-y-4">
+    <h3 className="text-xl font-semibold">Métriques techniques</h3>
+    <div className="space-y-3">
+      <Metric label="Pages indexées" value={347} unit="%" />
+      <Metric label="Core Web Vitals" value={92} unit="%" />
+      <Metric label="Erreurs crawl" value={0} unit="" />
+      <Metric label="Schema markup" value={100} unit="%" />
+    </div>
+  </div>
+  
+  <div className="space-y-4">
+    <h3 className="text-xl font-semibold">Impact business</h3>
+    <div className="space-y-3">
+      <Metric label="Trafic organique" value={+156} unit="%" />
+      <Metric label="Positions top 3" value={+89} unit="%" />
+      <Metric label="CTR moyen" value={+67} unit="%" />
+      <Metric label="Conversions SEO" value={+234} unit="%" />
+    </div>
+  </div>
+</div>
+
+<Tip type="tip">
+Le SEO technique n'est pas un **sprint mais un marathon**. Les résultats arrivent après 3-6 mois, mais ils sont durables.
+</Tip>
+
+## Checklist SEO technique
+
+- [ ] **Structure HTML** : H1-H6 logique + sémantique
+- [ ] **Schema markup** : Article, Organization, FAQ
+- [ ] **Core Web Vitals** : LCP, FID, CLS optimisés
+- [ ] **Sitemap XML** : Priorités intelligentes + mise à jour auto
+- [ ] **Robots.txt** : Directives claires + sitemap
+- [ ] **URLs** : Structure propre + redirections 301
+- [ ] **Images** : Alt tags + formats optimisés
+- [ ] **Monitoring** : Search Console + outils de suivi
+
+Le SEO technique WordPress, c'est la **fondation invisible** qui permet à votre contenu de briller. Sans elle, même le meilleur contenu restera invisible.

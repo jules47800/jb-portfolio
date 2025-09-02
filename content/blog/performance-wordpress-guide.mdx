@@ -1,0 +1,322 @@
+---
+title: "Performance WordPress : Guide complet 2024"
+slug: "performance-wordpress-guide"
+summary: "Transformez votre site WordPress lent en machine de course. Techniques avancées, outils pro et résultats mesurables."
+tags: ["performance", "wordpress", "core-web-vitals"]
+level: "Avancé"
+---
+
+## Pourquoi la performance WordPress est cruciale
+
+Un site lent = visiteurs qui partent. Google le sait, vos clients aussi. Voici les vrais chiffres :
+
+<div className="grid grid-cols-1 md:grid-cols-3 gap-6 my-8">
+  <Metric label="Rebond si > 3s" value={53} unit="%" />
+  <Metric label="Conversion perdue" value={-7} unit="%" />
+  <Metric label="Impact SEO" value={-40} unit="%" />
+</div>
+
+<Tip type="warning">
+Google utilise les **Core Web Vitals** comme facteur de classement depuis 2021. Un site lent = moins de visibilité.
+</Tip>
+
+## Audit de performance : l'état des lieux
+
+Avant d'optimiser, mesurons. Voici les outils que j'utilise en production :
+
+<Schema 
+  title="Processus d'audit performance"
+  steps={["PageSpeed Insights", "GTmetrix", "WebPageTest", "Chrome DevTools", "Plan d'action"]}
+/>
+
+### Métriques à surveiller
+
+<div className="grid grid-cols-2 md:grid-cols-4 gap-4 my-8">
+  <PerformanceGauge score={85} label="LCP (Largest Contentful Paint)" />
+  <PerformanceGauge score={92} label="CLS (Cumulative Layout Shift)" />
+  <PerformanceGauge score={78} label="FID (First Input Delay)" />
+  <PerformanceGauge score={88} label="Score global" />
+</div>
+
+## Optimisation des images : 70% des gains
+
+Les images représentent en moyenne **70% du poids** d'une page. C'est votre premier levier d'optimisation.
+
+### Formats modernes
+
+<BeforeAfter 
+  before={
+    <div>
+      <h4 className="font-semibold mb-4">❌ Formats traditionnels</h4>
+      <div className="space-y-2 text-sm">
+        <div className="flex justify-between p-2 bg-red-50 rounded">
+          <span>hero.jpg</span>
+          <span className="text-red-600">2.3 MB</span>
+        </div>
+        <div className="flex justify-between p-2 bg-red-50 rounded">
+          <span>gallery.png</span>
+          <span className="text-red-600">1.8 MB</span>
+        </div>
+        <div className="flex justify-between p-2 bg-red-50 rounded">
+          <span>Total</span>
+          <span className="text-red-600 font-bold">4.1 MB</span>
+        </div>
+      </div>
+    </div>
+  }
+  after={
+    <div>
+      <h4 className="font-semibold mb-4">✅ Formats optimisés</h4>
+      <div className="space-y-2 text-sm">
+        <div className="flex justify-between p-2 bg-green-50 rounded">
+          <span>hero.avif</span>
+          <span className="text-green-600">180 KB</span>
+        </div>
+        <div className="flex justify-between p-2 bg-green-50 rounded">
+          <span>gallery.webp</span>
+          <span className="text-green-600">95 KB</span>
+        </div>
+        <div className="flex justify-between p-2 bg-green-50 rounded">
+          <span>Total</span>
+          <span className="text-green-600 font-bold">275 KB</span>
+        </div>
+      </div>
+      <div className="mt-4 p-2 bg-blue-50 rounded text-center">
+        <span className="text-blue-600 font-bold">🚀 -93% de poids</span>
+      </div>
+    </div>
+  }
+/>
+
+### Code d'optimisation automatique
+
+<CodeBlock title="functions.php" language="php">
+{`// Conversion automatique WebP/AVIF
+function optimize_image_formats($html) {
+    // Détection du support navigateur
+    $supports_avif = strpos($_SERVER['HTTP_ACCEPT'], 'image/avif') !== false;
+    $supports_webp = strpos($_SERVER['HTTP_ACCEPT'], 'image/webp') !== false;
+    
+    if ($supports_avif) {
+        $html = preg_replace('/\.(jpg|jpeg|png)/i', '.avif', $html);
+    } elseif ($supports_webp) {
+        $html = preg_replace('/\.(jpg|jpeg|png)/i', '.webp', $html);
+    }
+    
+    return $html;
+}
+add_filter('the_content', 'optimize_image_formats');
+
+// Lazy loading natif WordPress
+function add_lazy_loading($html) {
+    return str_replace('<img ', '<img loading="lazy" ', $html);
+}
+add_filter('the_content', 'add_lazy_loading');`}
+</CodeBlock>
+
+## Cache et CDN : la vitesse de la lumière
+
+### Configuration cache multi-niveaux
+
+<Demo title="Simulation temps de chargement avec cache">
+  <div className="space-y-4">
+    <div className="flex items-center justify-between p-4 bg-red-50 rounded-lg border-l-4 border-red-400">
+      <div>
+        <div className="font-semibold">Sans cache</div>
+        <div className="text-sm text-gray-600">Chaque requête = base de données</div>
+      </div>
+      <div className="text-2xl font-bold text-red-600">2.8s</div>
+    </div>
+    
+    <div className="flex items-center justify-between p-4 bg-yellow-50 rounded-lg border-l-4 border-yellow-400">
+      <div>
+        <div className="font-semibold">Cache objet</div>
+        <div className="text-sm text-gray-600">Redis/Memcached</div>
+      </div>
+      <div className="text-2xl font-bold text-yellow-600">1.2s</div>
+    </div>
+    
+    <div className="flex items-center justify-between p-4 bg-green-50 rounded-lg border-l-4 border-green-400">
+      <div>
+        <div className="font-semibold">Cache page + CDN</div>
+        <div className="text-sm text-gray-600">Cloudflare + WP Rocket</div>
+      </div>
+      <div className="text-2xl font-bold text-green-600">0.3s</div>
+    </div>
+  </div>
+</Demo>
+
+### Configuration WP Rocket optimale
+
+<CodeBlock title="Configuration WP Rocket" language="php">
+{`// Configuration avancée WP Rocket
+define('WP_ROCKET_CACHE_ROOT_PATH', '/var/cache/wp-rocket/');
+define('WP_ROCKET_CACHE_ROOT_URL', 'https://cdn.monsite.fr/cache/');
+
+// Préchargement intelligent
+add_filter('rocket_preload_cache_pending_jobs', function($jobs) {
+    // Priorité aux pages importantes
+    $priority_pages = [
+        '/',
+        '/services/',
+        '/contact/',
+        '/blog/'
+    ];
+    
+    return array_merge($priority_pages, $jobs);
+});
+
+// Exclusions cache pour contenu dynamique
+add_filter('rocket_cache_reject_uri', function($uri) {
+    $excluded = [
+        '/wp-admin/',
+        '/wp-json/',
+        '/checkout/',
+        '/mon-compte/'
+    ];
+    
+    return array_merge($uri, $excluded);
+});`}
+</CodeBlock>
+
+## Base de données : le cœur du problème
+
+WordPress peut accumuler **des milliers de révisions** et données inutiles. Voici comment nettoyer :
+
+<CodeBlock title="Nettoyage base de données" language="sql">
+{`-- Suppression révisions anciennes (garde les 3 dernières)
+DELETE p1 FROM wp_posts p1
+INNER JOIN wp_posts p2 
+WHERE p1.post_parent = p2.ID 
+AND p1.post_type = 'revision' 
+AND p1.post_modified < DATE_SUB(NOW(), INTERVAL 30 DAY);
+
+-- Nettoyage spam et corbeille
+DELETE FROM wp_comments WHERE comment_approved = 'spam';
+DELETE FROM wp_posts WHERE post_status = 'trash';
+
+-- Optimisation tables
+OPTIMIZE TABLE wp_posts, wp_comments, wp_postmeta, wp_options;`}
+</CodeBlock>
+
+<Tip type="warning">
+**Toujours sauvegarder** avant toute manipulation SQL ! Utilisez phpMyAdmin ou WP-CLI pour plus de sécurité.
+</Tip>
+
+## CSS et JavaScript : l'art de la compression
+
+### Minification et concaténation
+
+<BeforeAfter 
+  before={
+    <div>
+      <h4 className="font-semibold mb-4">❌ Avant optimisation</h4>
+      <div className="space-y-2 text-xs font-mono">
+        <div className="p-2 bg-gray-100 rounded">style.css - 245 KB</div>
+        <div className="p-2 bg-gray-100 rounded">bootstrap.css - 180 KB</div>
+        <div className="p-2 bg-gray-100 rounded">custom.css - 67 KB</div>
+        <div className="p-2 bg-gray-100 rounded">jquery.js - 95 KB</div>
+        <div className="p-2 bg-gray-100 rounded">plugins.js - 123 KB</div>
+        <div className="mt-2 p-2 bg-red-100 rounded text-center">
+          <strong>15 requêtes HTTP - 710 KB</strong>
+        </div>
+      </div>
+    </div>
+  }
+  after={
+    <div>
+      <h4 className="font-semibold mb-4">✅ Après optimisation</h4>
+      <div className="space-y-2 text-xs font-mono">
+        <div className="p-2 bg-green-100 rounded">critical.css - 12 KB (inline)</div>
+        <div className="p-2 bg-green-100 rounded">styles.min.css - 89 KB</div>
+        <div className="p-2 bg-green-100 rounded">scripts.min.js - 45 KB</div>
+        <div className="mt-2 p-2 bg-green-100 rounded text-center">
+          <strong>2 requêtes HTTP - 146 KB</strong>
+        </div>
+        <div className="mt-2 p-2 bg-blue-100 rounded text-center">
+          <strong>🚀 -79% de poids, -87% requêtes</strong>
+        </div>
+      </div>
+    </div>
+  }
+/>
+
+### CSS critique automatique
+
+<CodeBlock title="Extraction CSS critique" language="php">
+{`// Génération automatique du CSS critique
+function generate_critical_css() {
+    $critical_css = '
+    /* Above-the-fold styles */
+    body { margin: 0; font-family: -apple-system, sans-serif; }
+    .header { position: fixed; top: 0; width: 100%; z-index: 1000; }
+    .hero { min-height: 100vh; display: flex; align-items: center; }
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+    ';
+    
+    // Injection inline dans le <head>
+    echo '<style id="critical-css">' . $critical_css . '</style>';
+}
+add_action('wp_head', 'generate_critical_css', 1);
+
+// Chargement différé du CSS complet
+function defer_non_critical_css() {
+    echo '<script>
+    // Chargement asynchrone CSS
+    const link = document.createElement("link");
+    link.rel = "stylesheet";
+    link.href = "' . get_stylesheet_uri() . '";
+    document.head.appendChild(link);
+    </script>';
+}
+add_action('wp_footer', 'defer_non_critical_css');`}
+</CodeBlock>
+
+## Résultats concrets
+
+Après application de ces techniques sur un site e-commerce WordPress :
+
+<div className="grid grid-cols-1 md:grid-cols-2 gap-8 my-8">
+  <div className="space-y-4">
+    <h3 className="text-xl font-semibold">Avant optimisation</h3>
+    <PerformanceGauge score={23} label="PageSpeed Mobile" />
+    <PerformanceGauge score={45} label="PageSpeed Desktop" />
+    <div className="p-4 bg-red-50 rounded-lg">
+      <div className="text-sm text-red-600">
+        • Temps de chargement : 8.2s<br/>
+        • Taille page : 4.8 MB<br/>
+        • Requêtes HTTP : 127<br/>
+        • Taux de rebond : 73%
+      </div>
+    </div>
+  </div>
+  
+  <div className="space-y-4">
+    <h3 className="text-xl font-semibold">Après optimisation</h3>
+    <PerformanceGauge score={89} label="PageSpeed Mobile" />
+    <PerformanceGauge score={96} label="PageSpeed Desktop" />
+    <div className="p-4 bg-green-50 rounded-lg">
+      <div className="text-sm text-green-600">
+        • Temps de chargement : 1.4s<br/>
+        • Taille page : 580 KB<br/>
+        • Requêtes HTTP : 12<br/>
+        • Taux de rebond : 28%
+      </div>
+    </div>
+  </div>
+</div>
+
+## Checklist finale
+
+- [ ] **Images** : Formats WebP/AVIF + lazy loading
+- [ ] **Cache** : Plugin + CDN + cache serveur  
+- [ ] **Base de données** : Nettoyage + optimisation
+- [ ] **CSS/JS** : Minification + CSS critique
+- [ ] **Serveur** : PHP 8.1+ + HTTP/2
+- [ ] **Monitoring** : Outils de suivi performance
+
+<Tip type="tip">
+**Automatisez** ces optimisations ! Un site performant aujourd'hui peut ralentir demain sans maintenance régulière.
+</Tip>
+
+La performance WordPress n'est pas un luxe, c'est une **nécessité business**. Chaque seconde gagnée = plus de conversions, meilleur SEO, utilisateurs satisfaits.
